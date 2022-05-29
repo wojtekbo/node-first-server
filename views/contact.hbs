@@ -7,10 +7,10 @@
   </div>
 {{/if}}
 {{#if isError}}
-  <div class='isError'>Wystąpił błąd</div>
+  <div class='isError'>Error sending message</div>
 {{/if}}
 {{#if filePath}}
-  <img width='150px' src='{{filePath}}' alt='' />
+  <img id='seved-file' width='150px' src='{{filePath}}' alt='' />
 {{/if}}
 
 <form action='/contact/send-message' method='POST' enctype='multipart/form-data'>

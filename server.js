@@ -40,8 +40,8 @@ const storage = multer.diskStorage({
     cb(null, 'uploads/');
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = (Math.floor(Math.random() * 100000) + 100000).toString().substring(1);
-    cb(null, uniqueSuffix + '-' + file.originalname);
+    const uniqueSuffix = (Math.floor(Math.random() * 1000000) + 1000000).toString().substring(1);
+    cb(null, uniqueSuffix + '_' + file.originalname);
   },
 });
 
@@ -49,12 +49,12 @@ const upload = multer({storage: storage});
 
 app.post('/contact/send-message', upload.single('fileName'), (req, res) => {
   const {author, sender, title, message} = req.body;
-  const protocol = req.protocol;
-  const host = req.hostname;
-  const filename = req.file.filename;
-  const fullUrl = `${protocol}://${host}:8000/${filename}`;
-  console.log(fullUrl);
+
   if (author && sender && title && message && req.file) {
+    const protocol = req.protocol;
+    const host = req.get('host');
+    const filename = req.file.filename;
+    const fullUrl = `${protocol}://${host}/${filename}`;
     res.render('contact', {isSent: true, fileName: req.file.originalname, filePath: fullUrl});
   } else {
     res.render('contact', {isError: true});
